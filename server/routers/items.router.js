@@ -1,4 +1,5 @@
 const express = require("express");
+const db = require('../db/items.db');
 const itemRouter = express.Router();
 
 // GET
