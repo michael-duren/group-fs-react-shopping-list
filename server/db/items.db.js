@@ -1,53 +1,60 @@
 const pool = require('../modules/pool');
 
 function getItems() {
-	const queryString = 'SELECT * FROM shoppinglist;';
+  const queryString = 'SELECT * FROM shoppinglist;';
 
-	return pool.query(queryString)
-		.then(result => result.rows)
-		.catch((err) => {
-			throw new Error(err);
-		});
+  return pool
+    .query(queryString)
+    .then((result) => result.rows)
+    .catch((err) => {
+      throw new Error(err);
+    });
 }
 
 function addItem(newItem) {
-	const queryString = `
+  const queryString = `
 		INSERT INTO shoppinglist
 		(name, quantity, unit)	
-		VALUES ('${newItem.name}', '${newItem.quantity}', '${newItem.unit}');
+		VALUES ($1, $2, $3);
 	`;
 
-	return pool.query(queryString)
-		.catch((err) => {
-			throw new Error(err);
-		});
+  const queryParams = [newItem.name, Number(newItem.quantity), newItem.unit];
+
+  return pool.query(queryString, queryParams).catch((err) => {
+    throw new Error(err);
+  });
 }
 
 function updateItem(id, updatedItem) {
   const queryString = `
       UPDATE shoppinglist SET
-        name='${updatedItem.name}',
-        quantity='${updatedItem.quantity}',
-        unit='${updatedItem.unit}';
-      WHERE id=${id};
+        name=$1,
+        quantity=$2,
+        unit=$3;
+      WHERE id=$4;
   `;
+  const queryParams = [
+    updatedItem.name,
+    Number(updatedItem.quantity),
+    updatedItem.unit,
+    id,
+  ];
 
-  return pool.query(queryString)
-		.catch((error) => {
-			throw new Error(error);
-		});
+  return pool.query(queryString, queryParams).catch((error) => {
+    throw new Error(error);
+  });
 }
 
 function deleteItem(id) {
-	const queryString = `
-		DELETE FROM shoppinglist WHERE id=${id};
+  const queryString = `
+		DELETE FROM shoppinglist WHERE id=$1;
 	`;
 
-  return pool.query(queryString)
-		.catch((error) => {
-			throw new Error(error);
-		});
+  const queryParams = [id];
 
+  return pool.query(queryString, queryParams).catch((error) => {
+    throw new Error(error);
+  });
 }
 
 module.exports = {
@@ -55,4 +62,4 @@ module.exports = {
   addItem,
   updateItem,
   deleteItem,
-}
+};
