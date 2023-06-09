@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../Header/Header.jsx";
+import { getAllItems, deleteItem, resetAllItems, clearAllItems } from "../../api/agent";
 import "./App.css";
 
 function App() {
@@ -12,19 +13,6 @@ function App() {
   };
   const [formData, setFormData] = useState(initialFormState);
 
-  const getAllItems = () => {
-    return axios
-      .get("/items")
-      .then((response) => response.data)
-      .then((items) => {
-        return items
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .sort((a, b) => Number(a.purchased) - Number(b.purchased));
-      })
-      .then(setListItems)
-      .catch((error) => console.error(error));
-  };
-
   const addItem = (event) => {
     event.preventDefault();
 
@@ -32,17 +20,8 @@ function App() {
       .post("/items", formData)
       .then(() => {
         setFormData(initialFormState);
-        getAllItems();
+        getAllItems(setListItems);
         console.log(formData);
-      })
-      .catch((error) => console.error(error));
-  };
-
-  const deleteItem = (itemId) => {
-    axios
-      .delete(`/items/${itemId}`)
-      .then(() => {
-        getAllItems();
       })
       .catch((error) => console.error(error));
   };
@@ -53,35 +32,10 @@ function App() {
     axios
       .put(`/items/${itemId}`, item)
       .then(() => {
-        getAllItems();
+        getAllItems(setListItems);
       })
       .catch((error) => console.error(error));
   };
-
-  const resetAllItems = () => {
-    Promise.all(
-      listItems.map((item) => {
-        item.purchased = false;
-        return axios.put(`/items/${item.id}`, item);
-      })
-    )
-      .then(() => {
-        getAllItems();
-      })
-      .catch((error) => console.error(error));
-  };
-
-  const clearAllItems = () => {
-    Promise.all(
-      listItems.map((item) => {
-        return axios.delete(`/items/${item.id}`)
-      })
-    )
-      .then(() => {
-        getAllItems();
-      })
-      .catch((error) => console.error(error));
-  }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -90,7 +44,7 @@ function App() {
   };
 
   useEffect(() => {
-    getAllItems();
+    getAllItems(setListItems);
   }, []);
 
   return (
@@ -101,8 +55,8 @@ function App() {
         <div>
           <h2>Grocery List</h2>
           <div>
-            <button onClick={resetAllItems}>Reset</button>
-            <button onClick={clearAllItems}>Clear</button>
+            <button onClick={() => resetAllItems(listItems, setListItems)}>Reset</button>
+            <button onClick={() => clearAllItems(listItems, setListItems)}>Clear</button>
           </div>
           <ul>
             {listItems &&
