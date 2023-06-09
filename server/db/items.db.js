@@ -30,13 +30,15 @@ function updateItem(id, updatedItem) {
       UPDATE shoppinglist SET
         name=$1,
         quantity=$2,
-        unit=$3;
-      WHERE id=$4;
+        unit=$3,
+        purchased=$4
+      WHERE id=$5;
   `;
   const queryParams = [
     updatedItem.name,
     Number(updatedItem.quantity),
     updatedItem.unit,
+    updatedItem.purchased,
     id,
   ];
 

@@ -1,21 +1,27 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import Header from '../Header/Header.jsx';
-import './App.css';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Header from "../Header/Header.jsx";
+import "./App.css";
 
 function App() {
   const [listItems, setListItems] = useState([]);
   const initialFormState = {
-    name: '',
-    quantity: '',
-    unit: '',
+    name: "",
+    quantity: "",
+    unit: "",
   };
   const [formData, setFormData] = useState(initialFormState);
 
   const getAllItems = () => {
     return axios
-      .get('/items')
+      .get("/items")
       .then((response) => response.data)
+      .then((items) => {
+        return items
+          .sort((a,b) => a.name.localeCompare(b.name))
+          .sort((a, b) => Number(a.purchased) - Number(b.purchased));
+      })
+      .then(setListItems)
       .catch((error) => console.error(error));
   };
 
@@ -23,22 +29,34 @@ function App() {
     event.preventDefault();
 
     return axios
-      .post('/items', formData)
+      .post("/items", formData)
       .then(() => {
         setFormData(initialFormState);
-        getAllItems().then(setListItems);
-        console.log(formData)
+        getAllItems();
+        console.log(formData);
       })
       .catch((error) => console.error(error));
   };
 
   const deleteItem = (itemId) => {
-    axios.delete(`/items/${itemId}`)
+    axios
+      .delete(`/items/${itemId}`)
       .then(() => {
-        getAllItems().then(setListItems)
+        getAllItems();
       })
       .catch((error) => console.error(error));
-  }
+  };
+
+  const purchaseItem = (itemId, item) => {
+    item.purchased = true;
+
+    axios
+      .put(`/items/${itemId}`, item)
+      .then(() => {
+        getAllItems();
+      })
+      .catch((error) => console.error(error));
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -47,7 +65,7 @@ function App() {
   };
 
   useEffect(() => {
-    getAllItems().then(setListItems);
+    getAllItems();
   }, []);
 
   return (
@@ -62,8 +80,22 @@ function App() {
               listItems.map((item) => {
                 return (
                   <li key={item.id}>
-                    <span> {item.name}, quanity: {item.quantity} {item.unit}</span> 
-                    <button onClick={() => deleteItem(item.id)}>Delete</button>
+                    <span>
+                      {" "}
+                      {item.name}, quanity: {item.quantity} {item.unit}
+                    </span>
+                    {item.purchased ? (
+                      <span>{" "}Purchased</span>
+                    ) : (
+                      <>
+                        <button onClick={() => deleteItem(item.id)}>
+                          Delete
+                        </button>
+                        <button onClick={() => purchaseItem(item.id, item)}>
+                          Purchased
+                        </button>
+                      </>
+                    )}
                   </li>
                 );
               })}

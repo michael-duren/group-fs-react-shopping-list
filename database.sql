@@ -3,8 +3,8 @@ CREATE TABLE shoppinglist (
     id SERIAL PRIMARY KEY,
     name VARCHAR(80) NOT NULL,
     quantity REAL NOT NULL,
-    unit VARCHAR(20)
-
+    unit VARCHAR(20),
+    purchased BOOLEAN NOT NULL DEFAULT false
 );
 
 -- It is also helpful to include some test data
@@ -14,3 +14,4 @@ VALUES
 ('ground beef', 1.5, 'lbs'),
 ('avocado', 6, 'count'),
 ('bagels', 2, 'packs');
+
