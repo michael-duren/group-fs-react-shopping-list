@@ -27,9 +27,18 @@ function App() {
       .then(() => {
         setFormData(initialFormState);
         getAllItems().then(setListItems);
+        console.log(formData)
       })
       .catch((error) => console.error(error));
   };
+
+  const deleteItem = (itemId) => {
+    axios.delete(`/items/${itemId}`)
+      .then(() => {
+        getAllItems().then(setListItems)
+      })
+      .catch((error) => console.error(error));
+  }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -53,7 +62,8 @@ function App() {
               listItems.map((item) => {
                 return (
                   <li key={item.id}>
-                    {item.name}, quanity: {item.quantity} {item.unit}
+                    <span> {item.name}, quanity: {item.quantity} {item.unit}</span> 
+                    <button onClick={() => deleteItem(item.id)}>Delete</button>
                   </li>
                 );
               })}
@@ -66,18 +76,21 @@ function App() {
             onChange={handleChange}
             name="name"
             placeholder="Item Name"
+            value={formData.name}
           />
           <input
             type="text"
             onChange={handleChange}
             name="quantity"
             placeholder="Quantity"
+            value={formData.quantity}
           />
           <input
             type="text"
             onChange={handleChange}
             name="unit"
             placeholder="Unit"
+            value={formData.unit}
           />
           <button type="submit">Submit</button>
         </form>
