@@ -1,15 +1,20 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Header from "../Header/Header.jsx";
-import { getAllItems, deleteItem, resetAllItems, clearAllItems } from "../../api/agent";
-import "./App.css";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import Header from '../Header/Header.jsx';
+import {
+  getAllItems,
+  deleteItem,
+  resetAllItems,
+  clearAllItems,
+} from '../../api/agent';
+import './App.css';
 
 function App() {
   const [listItems, setListItems] = useState([]);
   const initialFormState = {
-    name: "",
-    quantity: "",
-    unit: "",
+    name: '',
+    quantity: '',
+    unit: '',
   };
   const [formData, setFormData] = useState(initialFormState);
 
@@ -17,7 +22,7 @@ function App() {
     event.preventDefault();
 
     return axios
-      .post("/items", formData)
+      .post('/items', formData)
       .then(() => {
         setFormData(initialFormState);
         getAllItems(setListItems);
@@ -55,8 +60,12 @@ function App() {
         <div>
           <h2>Grocery List</h2>
           <div>
-            <button onClick={() => resetAllItems(listItems, setListItems)}>Reset</button>
-            <button onClick={() => clearAllItems(listItems, setListItems)}>Clear</button>
+            <button onClick={() => resetAllItems(listItems, setListItems)}>
+              Reset
+            </button>
+            <button onClick={() => clearAllItems(listItems, setListItems)}>
+              Clear
+            </button>
           </div>
           <ul>
             {listItems &&
@@ -64,14 +73,16 @@ function App() {
                 return (
                   <li key={item.id}>
                     <span>
-                      {" "}
+                      {' '}
                       {item.name}, quanity: {item.quantity} {item.unit}
                     </span>
                     {item.purchased ? (
                       <span> Purchased</span>
                     ) : (
                       <>
-                        <button onClick={() => deleteItem(item.id)}>
+                        <button
+                          onClick={() => deleteItem(item.id, setListItems)}
+                        >
                           Delete
                         </button>
                         <button onClick={() => purchaseItem(item.id, item)}>
