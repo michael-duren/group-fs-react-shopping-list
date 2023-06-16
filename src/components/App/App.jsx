@@ -16,10 +16,10 @@ function App() {
     <div className="App">
       <Header />
       <main>
-        {/* List */}
-        <List listItems={listItems} setListItems={setListItems} />
         {/* Form */}
         <Form setListItems={setListItems} />
+        {/* List */}
+        <List listItems={listItems} setListItems={setListItems} />
       </main>
     </div>
   );
