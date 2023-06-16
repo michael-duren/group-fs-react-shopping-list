@@ -13,6 +13,16 @@ export const getAllItems = (setListItems) => {
     .catch((error) => console.error(error));
 };
 
+export const addItem = (item, setListItems) => {
+
+  return axios
+    .post('/items', item)
+    .then(() => {
+      getAllItems(setListItems);
+    })
+    .catch((error) => console.error(error));
+};
+
 export const purchaseItem = (itemId, item, setListItems) => {
   item.purchased = true;
 
