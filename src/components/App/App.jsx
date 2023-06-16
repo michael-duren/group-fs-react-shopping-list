@@ -6,6 +6,7 @@ import {
   deleteItem,
   resetAllItems,
   clearAllItems,
+  purchaseItem,
 } from '../../api/agent';
 import './App.css';
 
@@ -27,17 +28,6 @@ function App() {
         setFormData(initialFormState);
         getAllItems(setListItems);
         console.log(formData);
-      })
-      .catch((error) => console.error(error));
-  };
-
-  const purchaseItem = (itemId, item) => {
-    item.purchased = true;
-
-    axios
-      .put(`/items/${itemId}`, item)
-      .then(() => {
-        getAllItems(setListItems);
       })
       .catch((error) => console.error(error));
   };
@@ -85,7 +75,11 @@ function App() {
                         >
                           Delete
                         </button>
-                        <button onClick={() => purchaseItem(item.id, item)}>
+                        <button
+                          onClick={() =>
+                            purchaseItem(item.id, item, setListItems)
+                          }
+                        >
                           Purchased
                         </button>
                       </>
