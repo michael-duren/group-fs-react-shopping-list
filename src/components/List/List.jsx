@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { resetAllItems, clearAllItems } from '../../api/agent';
 import ListItem from '../ListItem/ListItem';
 import { Button } from '@mui/material';
-import './ListContainer.css';
+import './List.css';
 
 export default function List({ listItems, setListItems }) {
   return (

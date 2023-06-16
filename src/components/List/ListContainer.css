@@ -1,7 +1,0 @@
-.list-container {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  justify-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
