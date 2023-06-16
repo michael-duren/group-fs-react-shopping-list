@@ -1,23 +1,32 @@
-import { Button, Card, CardContent } from '@mui/material';
+import { Button, Card, CardContent, Chip } from '@mui/material';
 import { purchaseItem, deleteItem } from '../../api/agent';
+import { toTitleCase } from '../../utils/toTitleCase';
+import './ListItem.css';
 
 export default function ListItem({ item, setListItems }) {
   return (
-    <Card>
-      <CardContent>
-        <span>
-          {' '}
-          {item.name}, quanity: {item.quantity} {item.unit}
-        </span>
+    <Card sx={{ minWidth: '15rem' }}>
+      <CardContent className="card-content">
+        <h3> {toTitleCase(item.name)}</h3>{' '}
+        <div>
+          Quanity: {item.quantity} {toTitleCase(item.unit)}
+        </div>
         {item.purchased ? (
-          <span> Purchased</span>
+          <Chip label="Purchased" color="success" />
         ) : (
           <>
-            <Button onClick={() => deleteItem(item.id, setListItems)}>
-              Delete
+            <Button
+              variant="contained"
+              onClick={() => purchaseItem(item.id, item, setListItems)}
+            >
+              Purchase
             </Button>
-            <Button onClick={() => purchaseItem(item.id, item, setListItems)}>
-              Purchased
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={() => deleteItem(item.id, setListItems)}
+            >
+              Delete
             </Button>
           </>
         )}

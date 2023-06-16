@@ -1,20 +1,22 @@
 import { Fragment } from 'react';
 import { resetAllItems, clearAllItems } from '../../api/agent';
 import ListItem from '../ListItem/ListItem';
+import { Button } from '@mui/material';
+import './ListContainer.css';
 
 export default function List({ listItems, setListItems }) {
   return (
     <div>
       <h2>Grocery List</h2>
       <div>
-        <button onClick={() => resetAllItems(listItems, setListItems)}>
+        <Button onClick={() => resetAllItems(listItems, setListItems)}>
           Reset
-        </button>
-        <button onClick={() => clearAllItems(listItems, setListItems)}>
+        </Button>
+        <Button onClick={() => clearAllItems(listItems, setListItems)}>
           Clear
-        </button>
+        </Button>
       </div>
-      <ul>
+      <ul className="list-container">
         {listItems &&
           listItems.map((item) => {
             return (
