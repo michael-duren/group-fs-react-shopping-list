@@ -1,6 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { addItem } from "../../api/agent";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import "./Form.css";
 
 export function Form({ setListItems }) {
   const initialFormState = {
@@ -26,28 +28,33 @@ export function Form({ setListItems }) {
 
   return (
     <form onSubmit={addItemHandler}>
-      <input
-        type="text"
+      <TextField
         onChange={handleChange}
         name="name"
         placeholder="Item Name"
         value={formData.name}
+        variant="outlined"
+        sx={{ width: 0.2 }}
       />
-      <input
-        type="text"
+      <TextField
         onChange={handleChange}
         name="quantity"
         placeholder="Quantity"
         value={formData.quantity}
+        variant="outlined"
+        sx={{ width: 0.11 }}
       />
-      <input
-        type="text"
+      <TextField
         onChange={handleChange}
         name="unit"
         placeholder="Unit"
         value={formData.unit}
+        variant="outlined"
+        sx={{ width: 0.15 }}
       />
-      <button type="submit">Submit</button>
+      <Button type="submit" variant="contained" sx={{ mx: 1 }}>
+        Submit
+      </Button>
     </form>
   );
 }
