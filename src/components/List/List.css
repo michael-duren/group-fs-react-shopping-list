@@ -1,7 +1,5 @@
 .list-container {
   display: flex;
-  justify-items: center;
-  justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
 }
