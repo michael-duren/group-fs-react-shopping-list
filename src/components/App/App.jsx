@@ -1,14 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../Header/Header.jsx';
-import {
-  getAllItems,
-  deleteItem,
-  resetAllItems,
-  clearAllItems,
-  purchaseItem,
-} from '../../api/agent';
+import { getAllItems } from '../../api/agent';
 import './App.css';
+import List from '../List/List.jsx';
 
 function App() {
   const [listItems, setListItems] = useState([]);
@@ -47,48 +42,7 @@ function App() {
       <Header />
       <main>
         {/* List */}
-        <div>
-          <h2>Grocery List</h2>
-          <div>
-            <button onClick={() => resetAllItems(listItems, setListItems)}>
-              Reset
-            </button>
-            <button onClick={() => clearAllItems(listItems, setListItems)}>
-              Clear
-            </button>
-          </div>
-          <ul>
-            {listItems &&
-              listItems.map((item) => {
-                return (
-                  <li key={item.id}>
-                    <span>
-                      {' '}
-                      {item.name}, quanity: {item.quantity} {item.unit}
-                    </span>
-                    {item.purchased ? (
-                      <span> Purchased</span>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => deleteItem(item.id, setListItems)}
-                        >
-                          Delete
-                        </button>
-                        <button
-                          onClick={() =>
-                            purchaseItem(item.id, item, setListItems)
-                          }
-                        >
-                          Purchased
-                        </button>
-                      </>
-                    )}
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
+        <List listItems={listItems} setListItems={setListItems} />
         {/* Form */}
         <form onSubmit={addItem}>
           <input
