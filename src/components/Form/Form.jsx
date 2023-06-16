@@ -34,7 +34,7 @@ export function Form({ setListItems }) {
         placeholder="Item Name"
         value={formData.name}
         variant="outlined"
-        sx={{ width: 0.2 }}
+        sx={{ minWidth: 0.3 }}
       />
       <TextField
         onChange={handleChange}
@@ -42,7 +42,7 @@ export function Form({ setListItems }) {
         placeholder="Quantity"
         value={formData.quantity}
         variant="outlined"
-        sx={{ width: 0.11 }}
+        sx={{ minWidth: "6rem", width: 0.2 }}
       />
       <TextField
         onChange={handleChange}
@@ -50,7 +50,7 @@ export function Form({ setListItems }) {
         placeholder="Unit"
         value={formData.unit}
         variant="outlined"
-        sx={{ width: 0.15 }}
+        sx={{ minWidth: "4rem", width: 0.2 }}
       />
       <Button type="submit" variant="contained" sx={{ mx: 1 }}>
         Submit
