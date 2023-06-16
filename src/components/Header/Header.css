@@ -1,4 +1,6 @@
 .banner-header {
-  text-align: center;
-  padding: 0.25em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 2rem;
 }

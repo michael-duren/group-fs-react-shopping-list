@@ -17,10 +17,13 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.5",
     "axios": "^1.4.0",
     "dotenv": "^16.2.0",
     "express": "^4.17.1",
+    "install": "^0.13.0",
+    "npm": "^9.7.1",
     "pg": "^8.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
